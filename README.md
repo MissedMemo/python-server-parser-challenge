@@ -11,12 +11,6 @@ Task:
 - don't use any external libraries
 
 
-Tech Stack:
-
-- Javascript ES6
-- testing using Mocha & chai
-
-
 Notes:
 
 - ??
