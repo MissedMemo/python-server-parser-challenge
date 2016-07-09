@@ -7,6 +7,8 @@
 
 ( function( API ) {
 
+
+  // Ajax GET request
   API.ajaxGet = function( url, callback ) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -17,6 +19,30 @@
     xmlhttp.open( 'GET', url, true );
     xmlhttp.send();
   };
+
+
+  // return first matching element, or undefined
+  API.find = function( collection, predicate ) {
+    /*
+     for completeness sake, we'll include array support,
+     even though we're only operating on objects...
+    */
+    if( Array.isArray(collection) ) {
+      for( var i = 0; i < collection.length; i++ ) {
+        if( predicate(collection[i]) ) {
+          return collection[i];
+        }
+      }
+    }
+    else {
+      for( var key in collection ) {
+        if( predicate(collection[key]) ) {
+          return collection[key];
+        }
+      }
+    }
+  };
+
 
   if( typeof(module) !== 'undefined' )
     module.exports = API; // node support
