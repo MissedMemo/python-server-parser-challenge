@@ -2,12 +2,29 @@ var query = 'http://localhost:8000/js/data.json';
 
 
 ajax.GET( query, function(results) {
-  //var node = document.getElementById('content');
-  //node.innerText = results.data;
-  console.log( results.data );
+
+  if( results && Array.isArray(results.data) ) {
+    var node = document.getElementById('processes');
+    node.appendChild( format(results.data) );
+  }
+  
+  //console.log( results.data );
 });
 
 
+function format( processes ) {
+
+  var table = document.createElement('table');
+  table.className = 'hierarchy';
+
+  // HTML5 'template' feature suport still lacking, so we'll hack it...
+  table.innerHTML = '<tr>'
+                  +   '<th>Name</th>'
+                  +   '<th>ID</th>'
+                  +   '<th>Parent ID</th>'
+                  + '</tr>';
+  return table;
+}
 
 
 /*******************************************

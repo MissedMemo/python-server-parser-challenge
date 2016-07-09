@@ -36,6 +36,7 @@ Notes:
   or type "export PATH=$PATH:/somePath/someDirectory" to add it to your path,
   in order not to have to pre-pend "start.sh" with a "./" when running the script.
 - type "chmod +x start.sh" at the terminal, to make the script executable
+- click to "accept incoming network connections" when prompted
 
 
 
