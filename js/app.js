@@ -1,12 +1,20 @@
 var url = window.location + 'js/data.json';
 
-ajax.GET( url, function(results) {
+utils.ajaxGet( url, function(results) {
 
-  if( results && Array.isArray(results.data) ) {
+  if( results && Array.isArray( results.data ) ) {
+    var structuredData = translate( results.data );
     var node = document.getElementById('processes');
-    node.appendChild( createTable(results.data) );
+    node.appendChild( createTable( structuredData ) );
   }
 });
+
+
+function translate( data ) {
+
+  //var tree =
+  return data;
+}
 
 
 function createTable( processes ) {

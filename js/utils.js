@@ -1,12 +1,13 @@
 /* 
-  We can't use any libraries, so we use a low-level ajax routine
-  and wrap it in an IIFE to demonstrate modularity and attention
-  to separation of concerns
+  We can't use any libraries, so we'll define a low-level ajax routine,
+  and some 'underscore'-like helper methods (for less verbose, more
+  'functional' style of code in our tree), and wrap them in an IIFE to
+  demonstrate modularity and attention to separation of concerns
 */
 
 ( function( API ) {
 
-  API.GET = function( url, callback ) {
+  API.ajaxGet = function( url, callback ) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if( xmlhttp.readyState === XMLHttpRequest.DONE && xmlhttp.status === 200 ) {
@@ -20,6 +21,6 @@
   if( typeof(module) !== 'undefined' )
     module.exports = API; // node support
   else
-    window.ajax = API;
+    window.utils = API;
 
 }( {} ));
