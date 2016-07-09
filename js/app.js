@@ -11,19 +11,30 @@ ajax.GET( url, function(results) {
 
 function createTable( processes ) {
 
-  var tableRows = '<tr>'
-                +   '<th>Name</th>'
-                +   '<th>ID</th>'
-                +   '<th>Parent ID</th>'
-                + '</tr>';
+  var tableRows = '<thead>'
+                +   '<tr>'
+                +     '<th>Name</th>'
+                +     '<th>ID</th>'
+                +     '<th>Parent ID</th>'
+                +   '</tr>'
+                + '</thead>';
   
-  processes.forEach( function( data ) {
+  processes.forEach( function( data, i ) {
+    
+    if( i === 0 ) {
+      tableRows += '<tbody>';
+    }
     
     tableRows += '<tr>'
               +    '<td>' + data.name + '</td>'
               +    '<td>' + data.pid  + '</td>'
               +    '<td>' + data.ppid + '</td>'
-              + '</tr>';
+              +  '</tr>';
+
+    if( i === (data.length -1) ) {
+      tableRows += '</tbody>';
+    }
+
   });
 
   var table = document.createElement('table');
