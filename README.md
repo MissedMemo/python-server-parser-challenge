@@ -5,22 +5,38 @@ Using NO external libraries...
 - load an index.html file on a Python web server using the command "start.sh"
 - retrieve a JSON file containing dummy process & parent ids
 - display the PID and PPID hierarchy in a table format
+- children should be indented, with a leading ↳ character.
 
+e.g.  this input...
 
-Installation:
+~~~~
+[
+  { name: 'explorer.exe', pid: 1, ppid: 5 },
+  { name: 'cmd.exe', pid: 2, ppid: 1 },
+  { name: 'python.exe', pid: 3, ppid: 2 },
+  { name: 'notepad.exe', pid: 4, ppid: 2 },
+]
+~~~~
 
-- place file "start.sh" in a directory accessible on your system $PATH,
-  or type "export PATH=$PATH:/somePath/someDirectory" to add it to your path,
-  in order not to have to pre-pend "start.sh" with a "./" when running the script.
-- type "chmod +x start.sh" at the terminal, to make the script executable
+should yield the following output...
 
-Tech Stack:
+~~~~
+  Name               ID     Parent ID
+  explorer.exe        1      5
+  ↳ cmd.exe          2      1
+    ↳ notepad.exe    4      2
+    ↳ python.exe     3      2
+~~~~
 
-- Python v. 2.7.10
 
 
 Notes:
 
-- ??
+- place files in a directory accessible on your system $PATH,
+  or type "export PATH=$PATH:/somePath/someDirectory" to add it to your path,
+  in order not to have to pre-pend "start.sh" with a "./" when running the script.
+- type "chmod +x start.sh" at the terminal, to make the script executable
+
+
 
  
