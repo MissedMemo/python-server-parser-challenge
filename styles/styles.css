@@ -1,0 +1,15 @@
+
+/* table styles reset */
+#processes table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#processes th, td {
+  text-align: left;
+  padding-right: 20px; /* add margin between columns */
+}
+
+#processes tbody td:first-child::before {
+  content: "↳ ";
+}
