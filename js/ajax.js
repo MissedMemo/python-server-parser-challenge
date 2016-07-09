@@ -1,3 +1,9 @@
+/* 
+  We can't use any libraries, so we use a low-level ajax routine
+  and wrap it in an IIFE to demonstrate modularity and attention
+  to separation of concerns
+*/
+
 ( function( API ) {
 
   API.GET = function( url, callback ) {

@@ -4,7 +4,7 @@ Using NO external libraries...
 
 - load an index.html file on a Python web server using the command "start.sh"
 - retrieve a JSON file containing dummy process & parent ids
-- display the PID and PPID hierarchy in a table format
+- display the PID and PPID hierarchy in a table format, in order of PID
 - children should be indented, with a leading ↳ character.
 
 e.g.  this input...
@@ -24,8 +24,8 @@ should yield the following output...
   Name               ID     Parent ID
   explorer.exe        1      5
   ↳ cmd.exe          2      1
-    ↳ notepad.exe    4      2
     ↳ python.exe     3      2
+    ↳ notepad.exe    4      2
 ~~~~
 
 

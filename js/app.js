@@ -1,28 +1,36 @@
-var query = 'http://localhost:8000/js/data.json';
+var url = window.location + 'js/data.json';
 
-
-ajax.GET( query, function(results) {
+ajax.GET( url, function(results) {
 
   if( results && Array.isArray(results.data) ) {
     var node = document.getElementById('processes');
-    node.appendChild( format(results.data) );
+    node.appendChild( createTable(results.data) );
   }
-  
-  //console.log( results.data );
 });
 
 
-function format( processes ) {
+function createTable( processes ) {
+
+  var tableRows = '<tr>'
+                +   '<th>Name</th>'
+                +   '<th>ID</th>'
+                +   '<th>Parent ID</th>'
+                + '</tr>';
+  
+  processes.forEach( function( data ) {
+    
+    tableRows += '<tr>'
+              +    '<td>' + data.name + '</td>'
+              +    '<td>' + data.pid  + '</td>'
+              +    '<td>' + data.ppid + '</td>'
+              + '</tr>';
+  });
 
   var table = document.createElement('table');
   table.className = 'hierarchy';
 
-  // HTML5 'template' feature suport still lacking, so we'll hack it...
-  table.innerHTML = '<tr>'
-                  +   '<th>Name</th>'
-                  +   '<th>ID</th>'
-                  +   '<th>Parent ID</th>'
-                  + '</tr>';
+  table.innerHTML = tableRows;
+
   return table;
 }
 
@@ -43,8 +51,9 @@ expected OUTPUT:
   Name               ID     Parent ID
   explorer.exe       1      5
   ↳ cmd.exe          2      1
-    ↳ notepad.exe    4      2
     ↳ python.exe     3      2
+    ↳ notepad.exe    4      2
+
 
 *********************************************/
 
