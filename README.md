@@ -4,8 +4,8 @@ Using NO external libraries...
 
 - load an index.html file on a Python web server using the command "start.sh"
 - retrieve a JSON file containing dummy process & parent ids
-- display the PID and PPID hierarchy in a table format, in order of PID
-- children should be indented, with a leading ↳ character.
+- display the PID and PPID hierarchy in a table format, sorted by name
+- children should be sorted on PID, and indented, with a leading ↳ character.
 
 e.g.  this input...
 
