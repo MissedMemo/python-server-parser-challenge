@@ -9,18 +9,26 @@ Tree.prototype.addNode = function( data ) {
   this.children.push( new Tree(data) );
 };
 
-Tree.prototype.insertNode = function( data, comparator ) {
-  var predicate = comparator(data);
-  console.log( 'predicate:', predicate );
-  var target = _.find( this.children, predicate );
-  if( target ) {
-    target.addNode( data );
+
+Tree.prototype.findNode = function( data ) {
+  return _.find( this.children, function(child) {
+    return child.value.pid === data.ppid || child.findNode(data);
+  });
+};
+
+Tree.prototype.insertNode = function( data ) {
+  
+  var match = this.findNode( data );
+
+  if( match ) {
+    match.addNode( data );
   }
   else {
-    this.addNode(data);
+    this.addNode( data );
   }
 };
 
+// output formatted hierarchy -- for debugging
 Tree.prototype.toString = function( offset ) {
 
   var spaces = offset || '';
@@ -43,25 +51,17 @@ Tree.prototype.toString = function( offset ) {
 };
 
 /*
-[
-  { name: 'explorer.exe', pid: 1, ppid: 5 },
-  { name: 'cmd.exe', pid: 2, ppid: 1 },
-  { name: 'python.exe', pid: 3, ppid: 2 },
-  { name: 'notepad.exe', pid: 4, ppid: 2 }
-]
-*/
-
-var nodeMatch = function( newNodeData ) {
-  return function( existingNodeData ) {
-    return newNodeData.ppid === existingNodeData.pid;
+var matcher = function( node ) {
+  return function(newData) {
+    return node.value.pid === newData.ppid;
   };
 };
+*/
 
 var tree = new Tree( { name: 'explorer.exe', pid: 1, ppid: 5 } );
-
-tree.insertNode( { name: 'cmd.exe', pid: 2, ppid: 1 }, nodeMatch );
-tree.insertNode( { name: 'python.exe', pid: 3, ppid: 2 }, nodeMatch );
-
+tree.insertNode( { name: 'cmd.exe', pid: 2, ppid: 1 } );
+tree.insertNode( { name: 'python.exe', pid: 3, ppid: 2 } );
+tree.insertNode( { name: 'notepad.exe', pid: 4, ppid: 2 } );
 console.log( tree.toString() );
 
 
