@@ -3,22 +3,28 @@ var url = window.location + 'js/data.json';
 utils.ajaxGet( url, function(results) {
 
   if( results && Array.isArray( results.data ) ) {
-    var structuredData = translate( results.data );
+    var hierarchy = translate( results.data );
     var node = document.getElementById('processes');
-    node.appendChild( createTable( structuredData ) );
+    //node.appendChild( createTable( hierarchy ) );
   }
 });
 
 
 function translate( data ) {
 
-  var tree = new structures.Tree( { name: 'explorer.exe', pid: 1, ppid: 5 } );
-  tree.insertNode( { name: 'cmd.exe', pid: 2, ppid: 1 } );
-  tree.insertNode( { name: 'python.exe', pid: 3, ppid: 2 } );
-  tree.insertNode( { name: 'notepad.exe', pid: 4, ppid: 2 } );
+  var tree = null;
+
+  data.forEach( function( processInfo, i ) {
+    if( i === 0 ) {
+      tree = new structures.Tree( processInfo );
+    } else {
+      tree.insertNode( processInfo );
+    }
+  });
+
   console.log( tree.toString() );
   
-  return data;
+  return tree;
 }
 
 
