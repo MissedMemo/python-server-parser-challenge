@@ -5,7 +5,7 @@ utils.ajaxGet( url, function(results) {
   if( results && Array.isArray( results.data ) ) {
     var hierarchy = translate( results.data );
     var node = document.getElementById('processes');
-    //node.appendChild( createTable( hierarchy ) );
+    node.appendChild( createTable( hierarchy ) );
   }
 });
 
@@ -28,7 +28,7 @@ function translate( data ) {
 }
 
 
-function createTable( processes ) {
+function createTable( tree ) {
 
   var tableRows = '<thead>'
                 +   '<tr>'
@@ -37,7 +37,12 @@ function createTable( processes ) {
                 +     '<th>Parent ID</th>'
                 +   '</tr>'
                 + '</thead>';
+
+  tree.dfTraverse( function( data, indentAmount ) {
+    console.log( 'node:', data, 'indent:', indentAmount );
+  });
   
+  /*
   processes.forEach( function( data, i ) {
     
     if( i === 0 ) {
@@ -55,6 +60,7 @@ function createTable( processes ) {
     }
 
   });
+  */
 
   var table = document.createElement('table');
   table.className = 'hierarchy';

@@ -40,18 +40,14 @@
   };
 
 
-  Tree.prototype.bfTraverse = function( callback ) {
+  Tree.prototype.dfTraverse = function( callback, nesting ) {
+  
+    var level = nesting || 0;
+    callback( this.value, level );
 
-    var traverseSiblings = function(siblings) {
-      siblings.forEach( function(sibling) {
-        callback(sibling.value);
-      });
-      siblings.forEach( function(sibling) {
-        traverseSiblings( sibling.children );
-      });
-    };
-
-    traverseSiblings( [this] );  
+    this.children.forEach( function(child) {
+      child.dfTraverse( callback, level +1 );
+    }); 
   };
 
 
