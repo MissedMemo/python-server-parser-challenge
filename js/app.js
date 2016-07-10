@@ -12,7 +12,12 @@ utils.ajaxGet( url, function(results) {
 
 function translate( data ) {
 
-  //var tree =
+  var tree = new structures.Tree( { name: 'explorer.exe', pid: 1, ppid: 5 } );
+  tree.insertNode( { name: 'cmd.exe', pid: 2, ppid: 1 } );
+  tree.insertNode( { name: 'python.exe', pid: 3, ppid: 2 } );
+  tree.insertNode( { name: 'notepad.exe', pid: 4, ppid: 2 } );
+  console.log( tree.toString() );
+  
   return data;
 }
 
