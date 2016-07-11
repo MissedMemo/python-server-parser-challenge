@@ -10,6 +10,17 @@
   padding-right: 20px; /* add margin between columns */
 }
 
-#processes tbody td:first-child::before {
+#processes tbody td[data-indent]::before {
   content: "↳ ";
 }
+
+#processes tbody td[data-indent='1'] {  padding-left: 1em; }
+#processes tbody td[data-indent='2'] {  padding-left: 2em; }
+#processes tbody td[data-indent='3'] {  padding-left: 3em; }
+#processes tbody td[data-indent='4'] {  padding-left: 4em; }
+#processes tbody td[data-indent='5'] {  padding-left: 5em; }
+#processes tbody td[data-indent='6'] {  padding-left: 6em; }
+#processes tbody td[data-indent='7'] {  padding-left: 7em; }
+#processes tbody td[data-indent='8'] {  padding-left: 8em; }
+#processes tbody td[data-indent='9'] {  padding-left: 9em; }
+#processes tbody td[data-indent='10'] {  padding-left: 10em; }

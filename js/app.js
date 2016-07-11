@@ -18,7 +18,7 @@ function translate( data ) {
     tree.insertNode( processInfo );
   });
 
-  tree.renderToConsole(); // debugging...
+  //tree.renderToConsole(); // debugging...
   
   return tree;
 }
@@ -36,10 +36,10 @@ function createTable( tree ) {
 
   tableRows += '<tbody>';
 
-  tree.dfTraverse( function( data, indent ) {
+  tree.dfTraverse( function( data, nesting ) {
     
     tableRows += '<tr>'
-              +    '<td>' + data.name + '</td>'
+              +    '<td ' + attribute( nesting ) + '>' + data.name + '</td>'
               +    '<td>' + data.pid  + '</td>'
               +    '<td>' + data.ppid + '</td>'
               +  '</tr>';
@@ -53,5 +53,12 @@ function createTable( tree ) {
   table.innerHTML = tableRows;
 
   return table;
+}
+
+
+function attribute( nestingLevel ) {
+  // NOTE: nestingLevel of 1 requires attribute, to show '↳' -- but NO indent!
+  var indentAmount = nestingLevel ? nestingLevel -1 : 0;
+  return nestingLevel ? 'data-indent="' + indentAmount + '"' : '';
 }
 
