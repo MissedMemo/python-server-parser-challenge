@@ -1,38 +1,45 @@
-( function( API, _ ) {
+/* TODO:
+  1- node-matching logic should be a passed PARAM!
+  2- root-level nodes should be re-tested, and made a child of a
+     newly-inserted node if their ppid matches new node's pid 
+*/
+
+( function( API ) {
 
   var Tree = function( data ) {
-    this.value = data;
+    this.value = data || null;
     this.children = [];
   };
 
 
   Tree.prototype.addNode = function( data ) {
-    this.children.push( new Tree(data) );
+    var node = new Tree(data);
+    this.children.push( node );
+    return node;
   };
 
 
-  Tree.prototype.findNode = function( data ) {
-    return _.find( this.children, function(child) {
-      return child.value.pid === data.ppid || child.findNode(data);
-    });
-  };
+  Tree.prototype.findNode = function( parentId ) {
 
+    if( this.value && this.value.pid === parentId ) {
+      return this;
+    }
 
-  /* TODO: node-matching logic should be a passed PARAM!
-  var matcher = function( newData ) {
-    return function(node) {
-      return node.value.pid === newData.ppid;
-    };
+    for( var i = 0; i < this.children.length; i++ ) {
+      var match = this.children[i].findNode( parentId );
+      if( match ) {
+        return match;
+      }
+    }
   };
-  */
 
 
   Tree.prototype.insertNode = function( data ) {
+      
+    var node = this.findNode( data.ppid );
     
-    var match = this.findNode( data );
-
-    if( match ) {
-      match.addNode( data );
+    if( node ) {
+      node.addNode( data );
     }
     else {
       this.addNode( data );
@@ -41,36 +48,24 @@
 
 
   Tree.prototype.dfTraverse = function( callback, nesting ) {
-  
-    var level = nesting || 0;
-    callback( this.value, level );
+    
+    if( this.value ) {
+      callback( this.value, nesting );
+    }
 
     this.children.forEach( function(child) {
-      child.dfTraverse( callback, level +1 );
+      var level = nesting === undefined ? 0 : nesting +1;
+      child.dfTraverse( callback, level );
     }); 
   };
 
-
-  // output formatted hierarchy -- for debugging
-  Tree.prototype.toString = function( offset ) {
-
-    var spaces = offset || '';
-    var string = spaces + 'I am node: '   + this.value.name
-                              + '(pid:'   + this.value.pid
-                              + ', ppid:' + this.value.ppid
-                              + '), and ';
-
-    if( this.children.length === 0 ) {
-      string += 'I am childless\n';
-    } else {
-      string += 'these are my kids:\n';
-
-      this.children.forEach( function(child) {
-        string += child.toString( spaces + '   ' );
-      });
-    }
-
-    return string;
+  // console.log indented hierarchy (useful for debugging)
+  Tree.prototype.renderToConsole = function() {
+    this.dfTraverse( function(data, indent) {
+      var spaces = '';
+      while( indent-- ) spaces += '     ';
+      console.log( spaces, data );
+    });
   };
 
 
@@ -81,4 +76,4 @@
   else
     window.structures = API;
 
-}( {}, window.utils ));
+}( {} ));
